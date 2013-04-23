@@ -40,7 +40,7 @@ public abstract class ResourceSyncEntry
 
     public void setLoc(String url)
     {
-        this.setLoc(url, new Date(), null);
+        this.setLoc(url, null, null);
     }
 
     public void setLastModified(Date lastModified)

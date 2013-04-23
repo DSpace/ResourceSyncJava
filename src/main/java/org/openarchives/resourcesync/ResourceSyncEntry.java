@@ -179,71 +179,93 @@ public abstract class ResourceSyncEntry
 
         // set the metadata element
         Element md = new Element("md", ResourceSync.NS_RS);
+        boolean trip = false;
         if (this.capability != null)
         {
             md.setAttribute("capability", this.capability, ResourceSync.NS_RS);
+            trip = true;
         }
         if (this.change != null)
         {
             md.setAttribute("change", this.change, ResourceSync.NS_RS);
+            trip = true;
         }
         String hashAttr = this.getHashAttr(this.hashes);
         if (!"".equals(hashAttr))
         {
             md.setAttribute("hash", hashAttr, ResourceSync.NS_ATOM);
+            trip = true;
         }
         if (this.length > -1)
         {
             md.setAttribute("length", Integer.toString(this.length), ResourceSync.NS_ATOM);
+            trip = true;
         }
         if (this.path != null)
         {
             md.setAttribute("path", this.path, ResourceSync.NS_RS);
+            trip = true;
         }
         if (this.type != null)
         {
             md.setAttribute("type", this.type, ResourceSync.NS_ATOM);
+            trip = true;
         }
-        root.addContent(md);
+        if (trip)
+        {
+            root.addContent(md);
+        }
 
         // set the link elements
         for (ResourceSyncLn ln : this.lns)
         {
+            trip = false;
             Element link = new Element("ln", ResourceSync.NS_RS);
             String lnHash = this.getHashAttr(ln.getHashes());
             if (!"".equals(lnHash))
             {
                 link.setAttribute("hash", lnHash, ResourceSync.NS_ATOM);
+                trip = true;
             }
             if (ln.getHref() != null)
             {
                 link.setAttribute("href", ln.getHref(), ResourceSync.NS_ATOM);
+                trip = true;
             }
             if (ln.getLength() > -1)
             {
                 link.setAttribute("length", Integer.toString(ln.getLength()), ResourceSync.NS_ATOM);
+                trip = true;
             }
             if (ln.getModified() != null)
             {
                 link.setAttribute("modified", ResourceSync.DATE_FORMAT.format(ln.getModified()), ResourceSync.NS_ATOM);
+                trip = true;
             }
             if (ln.getPath() != null)
             {
                 link.setAttribute("path", ln.getPath(), ResourceSync.NS_RS);
+                trip = true;
             }
             if (ln.getRel() != null)
             {
                 link.setAttribute("rel", ln.getRel(), ResourceSync.NS_ATOM);
+                trip = true;
             }
             if (ln.getPri() > 0)
             {
                 link.setAttribute("pri", Integer.toString(ln.getPri())); // FIXME: namespace?
+                trip = true;
             }
             if (ln.getType() != null)
             {
                 link.setAttribute("type", ln.getType(), ResourceSync.NS_ATOM);
+                trip = true;
             }
-            root.addContent(link);
+            if (trip)
+            {
+                root.addContent(link);
+            }
         }
 
         return root;

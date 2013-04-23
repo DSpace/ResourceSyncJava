@@ -16,7 +16,7 @@ public class CapabilityList extends UrlSet
     public CapabilityList(String describedBy, Date lastModified)
     {
         super();
-        this.capability = "capabilitylist";
+        this.capability = ResourceSync.CAPABILITY_CAPABILITYLIST;
 
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_RESOURCELIST);
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_RESOURCEDUMP);

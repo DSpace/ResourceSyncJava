@@ -99,9 +99,7 @@ public abstract class ResourceSyncDocument
     public String serialise()
     {
         Element element = this.getElement();
-        // element = element.detach();
         Document doc = new Document(element);
-        // doc.setRootElement(element);
         XMLOutputter out = new XMLOutputter();
         return out.outputString(doc);
     }

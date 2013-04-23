@@ -18,6 +18,7 @@ public class ResourceSync
     public static String REL_DESCRIBED_BY = "describedby";
     public static String REL_DESCRIBES = "describes";
     public static String REL_COLLECTION = "collection";
+    public static String REL_RESOURCESYNC = "resourcesync";
 
     // capabilities
     public static String CAPABILITY_RESOURCELIST = "resourcelist";

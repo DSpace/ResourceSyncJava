@@ -16,6 +16,7 @@ public class ChangeListArchive extends SitemapIndex
 
     public ChangeListArchive(Date lastMod, String capabilityList)
     {
+        super();
         this.capability = ResourceSync.CAPABILITY_CHANGELIST;
 
         if (lastMod != null)

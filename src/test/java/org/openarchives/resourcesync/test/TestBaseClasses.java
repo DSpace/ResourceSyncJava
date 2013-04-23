@@ -365,6 +365,65 @@ public class TestBaseClasses
         System.out.println(serial);
     }
 
+    @Test
+    public void ordering()
+    {
+        ResourceSyncDocument doc = new TestResourceSyncDocument();
+
+        ResourceSyncEntry entry1 = new TestResourceSyncEntry();
+        entry1.setLoc("http://entry1");
+        entry1.setLastModified(new Date(1000));
+
+        ResourceSyncEntry entry2 = new TestResourceSyncEntry();
+        entry2.setLoc("http://entry2");
+        entry2.setLastModified(new Date(10000));
+
+        ResourceSyncEntry entry3 = new TestResourceSyncEntry();
+        entry3.setLoc("http://entry3");
+        entry3.setLastModified(new Date(5000));
+
+        ResourceSyncEntry entry4 = new TestResourceSyncEntry();
+        entry4.setLoc("http://entry4");
+
+        doc.addEntry(entry1);
+        doc.addEntry(entry2);
+        doc.addEntry(entry3);
+        doc.addEntry(entry4);
+
+        Element element = doc.getElement();
+        List<Element> entries = element.getChildren("url", ResourceSync.NS_SITEMAP);
+        assert entries.size() == 4;
+        int i = 0;
+        for (Element entry : entries)
+        {
+            // these should all be in order, so this test will check that what we get
+            // comes in the following order (oldest first):
+            // 0s - http://entry4
+            // 1000s - http://entry1
+            // 5000s - http//entry3
+            // 10000s - http://entry4
+            if (i == 0)
+            {
+                assert entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry4");
+            }
+            if (i == 1)
+            {
+                assert entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry1");
+            }
+            if (i == 2)
+            {
+                assert entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry3");
+            }
+            if (i == 3)
+            {
+                assert entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry2");
+            }
+
+            // increment our counter
+            i++;
+        }
+    }
+
     class TestResourceSyncEntry extends ResourceSyncEntry
     {
         public TestResourceSyncEntry()

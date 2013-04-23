@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class ResourceSyncDocument
 {
@@ -18,7 +19,8 @@ public abstract class ResourceSyncDocument
 
     // these options can be accessed using getters and setters
     protected Date lastModified;
-    protected List<ResourceSyncEntry> entries = new ArrayList<ResourceSyncEntry>();
+    protected List<ResourceSyncEntry> unorderedEntries = new ArrayList<ResourceSyncEntry>();
+    protected TreeMap<Date, List<ResourceSyncEntry>> orderedEntries = new TreeMap<Date, List<ResourceSyncEntry>>();
     protected List<ResourceSyncLn> lns = new ArrayList<ResourceSyncLn>();
 
     public ResourceSyncLn addLn(String rel, String href)
@@ -38,12 +40,21 @@ public abstract class ResourceSyncDocument
 
     public void addEntry(ResourceSyncEntry entry)
     {
-        this.entries.add(entry);
+        Date key = entry.getLastModified() == null ? new Date(0) : entry.getLastModified();
+        if (!this.orderedEntries.containsKey(key))
+        {
+            this.orderedEntries.put(key, new ArrayList<ResourceSyncEntry>());
+        }
+        this.orderedEntries.get(key).add(entry);
+
+        // FIXME: are there any serious concerns about storing the entry in two locations?
+        // it's all by-reference, right?
+        this.unorderedEntries.add(entry);
     }
 
     public List<ResourceSyncEntry> getEntries()
     {
-        return entries;
+        return this.unorderedEntries;
     }
 
     public List<ResourceSyncLn> getLns()
@@ -75,7 +86,10 @@ public abstract class ResourceSyncDocument
         // set the capability of the document in the rs:md
         Element md = new Element("md", ResourceSync.NS_RS);
         md.setAttribute("capability", this.capability, ResourceSync.NS_RS);
-        md.setAttribute("modified", ResourceSync.DATE_FORMAT.format(this.lastModified), ResourceSync.NS_ATOM);
+        if (this.lastModified != null)
+        {
+            md.setAttribute("modified", ResourceSync.DATE_FORMAT.format(this.lastModified), ResourceSync.NS_ATOM);
+        }
         root.addContent(md);
 
         // serialise the rs:ln elements
@@ -87,10 +101,14 @@ public abstract class ResourceSyncDocument
             root.addContent(lnEl);
         }
 
-        for (ResourceSyncEntry entry : this.entries)
+        for (Date date : this.orderedEntries.keySet())
         {
-            Element entryElement = entry.getElement();
-            root.addContent(entryElement);
+            List<ResourceSyncEntry> entries = this.orderedEntries.get(date);
+            for (ResourceSyncEntry entry : entries)
+            {
+                Element entryElement = entry.getElement();
+                root.addContent(entryElement);
+            }
         }
 
         return root;

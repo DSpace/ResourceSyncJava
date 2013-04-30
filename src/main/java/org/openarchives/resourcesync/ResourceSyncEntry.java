@@ -20,7 +20,7 @@ public abstract class ResourceSyncEntry
     protected String capability = null;
     protected String change = null;
     protected Map<String, String> hashes = new HashMap<String, String>();
-    protected int length = -1;
+    protected long length = -1;
     protected String path = null;
     protected String type = null;
 
@@ -63,7 +63,7 @@ public abstract class ResourceSyncEntry
         this.change = change;
     }
 
-    public void setLength(int length)
+    public void setLength(long length)
     {
         this.length = length;
     }
@@ -132,7 +132,7 @@ public abstract class ResourceSyncEntry
         return hashes;
     }
 
-    public int getLength()
+    public long getLength()
     {
         return length;
     }
@@ -198,7 +198,7 @@ public abstract class ResourceSyncEntry
         }
         if (this.length > -1)
         {
-            md.setAttribute("length", Integer.toString(this.length), ResourceSync.NS_ATOM);
+            md.setAttribute("length", Long.toString(this.length), ResourceSync.NS_ATOM);
             trip = true;
         }
         if (this.path != null)

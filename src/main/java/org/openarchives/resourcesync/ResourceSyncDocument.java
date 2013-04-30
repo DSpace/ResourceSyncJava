@@ -4,6 +4,8 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,5 +122,14 @@ public abstract class ResourceSyncDocument
         Document doc = new Document(element);
         XMLOutputter out = new XMLOutputter();
         return out.outputString(doc);
+    }
+
+    public void serialise(OutputStream out)
+            throws IOException
+    {
+        Element element = this.getElement();
+        Document doc = new Document(element);
+        XMLOutputter xmlOutputter = new XMLOutputter();
+        xmlOutputter.output(doc, out);
     }
 }

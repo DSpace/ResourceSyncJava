@@ -34,6 +34,11 @@ public class ResourceList extends UrlSet
         }
     }
 
+    public ResourceList(String capabilityList)
+    {
+        this(null, capabilityList);
+    }
+
     public void addResource(URL resource)
     {
         this.addEntry(resource);

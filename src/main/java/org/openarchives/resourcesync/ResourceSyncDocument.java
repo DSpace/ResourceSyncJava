@@ -2,6 +2,7 @@ package org.openarchives.resourcesync;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.IOException;
@@ -120,7 +121,7 @@ public abstract class ResourceSyncDocument
     {
         Element element = this.getElement();
         Document doc = new Document(element);
-        XMLOutputter out = new XMLOutputter();
+        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
         return out.outputString(doc);
     }
 
@@ -129,7 +130,7 @@ public abstract class ResourceSyncDocument
     {
         Element element = this.getElement();
         Document doc = new Document(element);
-        XMLOutputter xmlOutputter = new XMLOutputter();
+        XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         xmlOutputter.output(doc, out);
     }
 }

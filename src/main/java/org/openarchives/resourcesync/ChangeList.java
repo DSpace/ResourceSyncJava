@@ -9,6 +9,11 @@ public class ChangeList extends UrlSet
         this(lastMod, null);
     }
 
+    public ChangeList(String capabilityList)
+    {
+        this(null, capabilityList);
+    }
+
     public ChangeList(Date lastMod, String capabilityList)
     {
         super();

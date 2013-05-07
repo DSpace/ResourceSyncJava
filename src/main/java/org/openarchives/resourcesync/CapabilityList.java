@@ -84,26 +84,50 @@ public class CapabilityList extends UrlSet
     }
 
     public URL setResourceList(String loc)
-            throws SpecComplianceException
     {
-        return this.addCapableUrl(loc, ResourceSync.CAPABILITY_RESOURCELIST);
+        try
+        {
+            return this.addCapableUrl(loc, ResourceSync.CAPABILITY_RESOURCELIST);
+        }
+        catch (SpecComplianceException e)
+        {
+            return null;
+        }
     }
 
     public URL setResourceDump(String loc)
-            throws SpecComplianceException
     {
-        return this.addCapableUrl(loc, ResourceSync.CAPABILITY_RESOURCEDUMP);
+        try
+        {
+            return this.addCapableUrl(loc, ResourceSync.CAPABILITY_RESOURCEDUMP);
+        }
+        catch (SpecComplianceException e)
+        {
+            return null;
+        }
     }
 
     public URL setChangeList(String loc)
-            throws SpecComplianceException
     {
-        return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGELIST);
+        try
+        {
+            return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGELIST);
+        }
+        catch (SpecComplianceException e)
+        {
+            return null;
+        }
     }
 
     public URL setChangeDump(String loc)
-            throws SpecComplianceException
     {
-        return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGEDUMP);
+        try
+        {
+            return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGEDUMP);
+        }
+        catch (SpecComplianceException e)
+        {
+            return null;
+        }
     }
 }

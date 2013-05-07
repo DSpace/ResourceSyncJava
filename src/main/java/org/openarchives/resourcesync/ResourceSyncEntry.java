@@ -3,6 +3,7 @@ package org.openarchives.resourcesync;
 import org.jdom2.Element;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -152,6 +153,138 @@ public abstract class ResourceSyncEntry
         return lns;
     }
 
+    public void populateObject(Element element)
+            throws ParseException
+    {
+        // loc
+        Element locEl = element.getChild("loc", ResourceSync.NS_SITEMAP);
+        if (locEl != null)
+        {
+            this.setLoc(locEl.getText().trim());
+        }
+
+        // lastmod
+        Element lmEl = element.getChild("lastmod", ResourceSync.NS_SITEMAP);
+        if (lmEl != null)
+        {
+            Date lm = ResourceSync.DATE_FORMAT.parse(lmEl.getText().trim());
+            this.setLastModified(lm);
+        }
+
+        // changefreq
+        Element cfEl = element.getChild("changefreq", ResourceSync.NS_SITEMAP);
+        if (cfEl != null)
+        {
+            this.setChangeFreq(cfEl.getText().trim());
+        }
+
+        // the metadata element
+        Element mdElement = element.getChild("md", ResourceSync.NS_RS);
+
+        // - capability
+        String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+        if (capability != null && !"".equals(capability))
+        {
+            this.setCapability(capability);
+        }
+
+        // - change
+        String change = mdElement.getAttributeValue("change", ResourceSync.NS_RS);
+        if (change != null && !"".equals(change))
+        {
+            this.setChange(change);
+        }
+
+        // - hash
+        String hashAttr = mdElement.getAttributeValue("hash", ResourceSync.NS_ATOM);
+        if (hashAttr != null && !"".equals(hashAttr))
+        {
+            this.addHashesFromAttr(hashAttr);
+        }
+
+        // - length
+        String length = mdElement.getAttributeValue("length", ResourceSync.NS_ATOM);
+        if (length != null && !"".equals(length))
+        {
+            long l = Long.parseLong(length);
+            this.setLength(l);
+        }
+
+        // - path
+        String path = mdElement.getAttributeValue("path", ResourceSync.NS_RS);
+        if (path != null && !"".equals(path))
+        {
+            this.setPath(path);
+        }
+
+        // - type
+        String type = mdElement.getAttributeValue("type", ResourceSync.NS_ATOM);
+        if (type != null && !"".equals(type))
+        {
+            this.setType(type);
+        }
+
+        // all the rs:ln elements
+        List<Element> lns = element.getChildren("ln", ResourceSync.NS_RS);
+        for (Element ln : lns)
+        {
+            String rel = ln.getAttributeValue("rel", ResourceSync.NS_ATOM);
+            String href = ln.getAttributeValue("href", ResourceSync.NS_ATOM);
+            if (rel != null && !"".equals(rel) && href != null && !"".equals(href))
+            {
+                ResourceSyncLn link = this.addLn(rel, href);
+
+                // hash
+                String lnHashAttr = ln.getAttributeValue("hash", ResourceSync.NS_ATOM);
+                if (lnHashAttr != null && !"".equals(lnHashAttr))
+                {
+                    Map<String, String> hashMap = this.getHashesFromAttr(lnHashAttr);
+                    for (String key : hashMap.keySet())
+                    {
+                        link.addHash(key, hashMap.get(key));
+                    }
+                }
+
+                // length
+                String lnLength = ln.getAttributeValue("length", ResourceSync.NS_ATOM);
+                if (lnLength != null && !"".equals(length))
+                {
+                    long lnl = Long.parseLong(lnLength);
+                    link.setLength(lnl);
+                }
+
+                // modified
+                String modified = ln.getAttributeValue("modified", ResourceSync.NS_ATOM);
+                if (modified != null && !"".equals(modified))
+                {
+                    Date modDate = ResourceSync.DATE_FORMAT.parse(modified);
+                    link.setModified(modDate);
+                }
+
+                // path
+                String lnPath = ln.getAttributeValue("path", ResourceSync.NS_RS);
+                if (lnPath != null && !"".equals(lnPath))
+                {
+                    link.setPath(lnPath);
+                }
+
+                // pri
+                String pri = ln.getAttributeValue("pri"); // FIXME: namespace?
+                if (pri != null && !"".equals(pri))
+                {
+                    link.setPri(Integer.parseInt(pri));
+                }
+
+                // type
+                String lnType = ln.getAttributeValue("type", ResourceSync.NS_ATOM);
+                if (lnType != null && !"".equals(lnType))
+                {
+                    link.setType(lnType);
+                }
+            }
+        }
+    }
+
     public Element getElement()
     {
         Element root = new Element(this.root, ResourceSync.NS_SITEMAP);
@@ -234,7 +367,7 @@ public abstract class ResourceSyncEntry
             }
             if (ln.getLength() > -1)
             {
-                link.setAttribute("length", Integer.toString(ln.getLength()), ResourceSync.NS_ATOM);
+                link.setAttribute("length", Long.toString(ln.getLength()), ResourceSync.NS_ATOM);
                 trip = true;
             }
             if (ln.getModified() != null)
@@ -281,5 +414,29 @@ public abstract class ResourceSyncEntry
         }
         String attr = sb.toString().trim();
         return attr;
+    }
+
+    protected void addHashesFromAttr(String hashAttr)
+    {
+        Map<String, String> hashMap = this.getHashesFromAttr(hashAttr);
+        for (String key : hashMap.keySet())
+        {
+            this.addHash(key, hashMap.get(key));
+        }
+    }
+
+    protected Map<String, String> getHashesFromAttr(String hashAttr)
+    {
+        Map<String, String> map = new HashMap<String, String>();
+        String[] bits = hashAttr.split(" ");
+        for (String bit : bits)
+        {
+            String[] parts = bit.split(":");
+            if (parts.length == 2)
+            {
+                map.put(parts[0], parts[1]);
+            }
+        }
+        return map;
     }
 }

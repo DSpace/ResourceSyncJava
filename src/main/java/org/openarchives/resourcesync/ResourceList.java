@@ -16,8 +16,7 @@ public class ResourceList extends UrlSet
 
     public ResourceList(Date lastMod, String capabilityList)
     {
-        super();
-        this.capability = ResourceSync.CAPABILITY_RESOURCELIST;
+        super(ResourceSync.CAPABILITY_RESOURCELIST);
 
         if (lastMod == null)
         {

@@ -1,12 +1,20 @@
 package org.openarchives.resourcesync;
 
+import org.jdom2.Element;
+
 import java.util.List;
 
 public class UrlSet extends ResourceSyncDocument
 {
-    public UrlSet()
+    public UrlSet(String capability)
     {
-        this.root = "urlset";
+        super("urlset", capability, null);
+    }
+
+    @Override
+    protected void populateEntries(Element element)
+    {
+
     }
 
     public void addUrl(URL url)

@@ -13,6 +13,7 @@ import org.openarchives.resourcesync.ResourceSyncDocument;
 import org.openarchives.resourcesync.ResourceSyncEntry;
 import org.openarchives.resourcesync.ResourceSyncLn;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -436,8 +437,14 @@ public class TestBaseClasses
     {
         public TestResourceSyncDocument()
         {
-            this.root = "urlset";
-            this.capability = ResourceSync.CAPABILITY_CHANGEDUMP;
+            super("urlset", ResourceSync.CAPABILITY_CHANGEDUMP, null);
+        }
+
+        @Override
+        protected void populateEntries(Element element)
+                throws ParseException
+        {
+            // do nothing
         }
     }
 }

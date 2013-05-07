@@ -16,8 +16,7 @@ public class ChangeList extends UrlSet
 
     public ChangeList(Date lastMod, String capabilityList)
     {
-        super();
-        this.capability = ResourceSync.CAPABILITY_CHANGELIST;
+        super(ResourceSync.CAPABILITY_CHANGELIST);
         this.setLastModified(lastMod);
 
         if (capabilityList != null)

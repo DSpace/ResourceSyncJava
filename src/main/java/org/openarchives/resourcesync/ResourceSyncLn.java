@@ -9,7 +9,7 @@ public class ResourceSyncLn
 {
     protected Map<String, String> hashes = new HashMap<String, String>();
     protected String href = null;
-    protected int length = -1;
+    protected long length = -1;
     protected Date modified = null;
     protected String path = null;
     protected String rel = null;
@@ -41,12 +41,12 @@ public class ResourceSyncLn
         this.href = href;
     }
 
-    public int getLength()
+    public long getLength()
     {
         return length;
     }
 
-    public void setLength(int length)
+    public void setLength(long length)
     {
         this.length = length;
     }

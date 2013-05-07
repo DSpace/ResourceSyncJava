@@ -2,11 +2,15 @@ package org.openarchives.resourcesync;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +20,7 @@ import java.util.TreeMap;
 
 public abstract class ResourceSyncDocument
 {
-    // these options should be provided by the extending class
+    // these options should be provided by the extending class through the constructor overrides
     protected String capability;
     protected String root;
 
@@ -25,6 +29,33 @@ public abstract class ResourceSyncDocument
     protected List<ResourceSyncEntry> unorderedEntries = new ArrayList<ResourceSyncEntry>();
     protected TreeMap<Date, List<ResourceSyncEntry>> orderedEntries = new TreeMap<Date, List<ResourceSyncEntry>>();
     protected List<ResourceSyncLn> lns = new ArrayList<ResourceSyncLn>();
+
+    public ResourceSyncDocument(String root, String capability, InputStream in)
+    {
+        this.root = root;
+        this.capability = capability;
+
+        try
+        {
+            if (in != null)
+            {
+                Element element = this.parse(in);
+                this.populateDocument(element);
+            }
+        }
+        catch (IOException e)
+        {
+            // do nothing, at least for the time being
+        }
+        catch (JDOMException e)
+        {
+            // do nothing, at least for the time being
+        }
+        catch (ParseException e)
+        {
+            // do nothing, at least for the time being
+        }
+    }
 
     public ResourceSyncLn addLn(String rel, String href)
     {
@@ -80,6 +111,45 @@ public abstract class ResourceSyncDocument
         return capability;
     }
 
+    protected void populateDocument(Element element)
+            throws ParseException
+    {
+        // metadata element
+        Element mdElement = element.getChild("md", ResourceSync.NS_RS);
+
+        // - capability
+        String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+        if (!"".equals(capability))
+        {
+            this.capability = capability;
+        }
+
+        // - modified
+        String modified = mdElement.getAttributeValue("modified", ResourceSync.NS_ATOM);
+        if (modified != null && !"".equals(modified))
+        {
+            Date lastMod = ResourceSync.DATE_FORMAT.parse(modified);
+            this.setLastModified(lastMod);
+        }
+
+        // rs:ln elements
+        List<Element> lns = element.getChildren("ln", ResourceSync.NS_RS);
+        for (Element ln : lns)
+        {
+            String rel = ln.getAttributeValue("rel", ResourceSync.NS_ATOM);
+            String href = ln.getAttributeValue("href", ResourceSync.NS_ATOM);
+            if (rel != null && !"".equals(rel) && href != null && !"".equals(href))
+            {
+                this.addLn(rel, href);
+            }
+        }
+
+        // each of the entries
+        this.populateEntries(element);
+    }
+
+    protected abstract void populateEntries(Element element) throws ParseException;
+
     public Element getElement()
     {
         Element root = new Element(this.root, ResourceSync.NS_SITEMAP);
@@ -132,5 +202,15 @@ public abstract class ResourceSyncDocument
         Document doc = new Document(element);
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         xmlOutputter.output(doc, out);
+    }
+
+    protected Element parse(InputStream in)
+            throws IOException, JDOMException
+    {
+        SAXBuilder sax = new SAXBuilder();
+        Document doc = sax.build(in);
+        Element element = doc.getRootElement();
+        element.detach();
+        return element;
     }
 }

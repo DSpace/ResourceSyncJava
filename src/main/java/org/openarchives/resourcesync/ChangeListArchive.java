@@ -1,5 +1,6 @@
 package org.openarchives.resourcesync;
 
+import java.io.InputStream;
 import java.util.Date;
 
 public class ChangeListArchive extends SitemapIndex
@@ -16,8 +17,7 @@ public class ChangeListArchive extends SitemapIndex
 
     public ChangeListArchive(Date lastMod, String capabilityList)
     {
-        super();
-        this.capability = ResourceSync.CAPABILITY_CHANGELIST;
+        super(ResourceSync.CAPABILITY_CHANGELIST);
 
         if (lastMod != null)
         {
@@ -32,6 +32,11 @@ public class ChangeListArchive extends SitemapIndex
         {
             this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
         }
+    }
+
+    public ChangeListArchive(InputStream in)
+    {
+        super(ResourceSync.CAPABILITY_CHANGELIST, in);
     }
 
     public void addChangeList(Sitemap sitemap)

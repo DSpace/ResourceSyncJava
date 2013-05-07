@@ -109,17 +109,12 @@ public class TestCapabilityList
             assert true;
         }
 
-        try
-        {
-            cl.setResourceList("http://resourcelist");
-            cl.setResourceDump("http://resourcedump");
-            cl.setChangeList("http://changelist");
-            cl.setChangeDump("http://changedump");
-        }
-        catch (SpecComplianceException e)
-        {
-            assert false;
-        }
+
+        cl.setResourceList("http://resourcelist");
+        cl.setResourceDump("http://resourcedump");
+        cl.setChangeList("http://changelist");
+        cl.setChangeDump("http://changedump");
+
 
         urls = cl.getUrls();
         assert urls.size() == 4;
@@ -159,20 +154,13 @@ public class TestCapabilityList
     @Test
     public void manualCheck()
     {
-        try
-        {
-            CapabilityList cl = new CapabilityList();
-            cl.addDescribedBy("http://describedby");
-            cl.setResourceList("http://resourcelist");
-            cl.setResourceDump("http://resourcedump");
-            cl.setChangeList("http://changelist");
-            cl.setChangeDump("http://changedump");
+        CapabilityList cl = new CapabilityList();
+        cl.addDescribedBy("http://describedby");
+        cl.setResourceList("http://resourcelist");
+        cl.setResourceDump("http://resourcedump");
+        cl.setChangeList("http://changelist");
+        cl.setChangeDump("http://changedump");
 
-            System.out.println(cl.serialise());
-        }
-        catch (SpecComplianceException e)
-        {
-            e.printStackTrace();
-        }
+        System.out.println(cl.serialise());
     }
 }

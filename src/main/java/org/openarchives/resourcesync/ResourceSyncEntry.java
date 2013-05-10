@@ -181,47 +181,50 @@ public abstract class ResourceSyncEntry
         // the metadata element
         Element mdElement = element.getChild("md", ResourceSync.NS_RS);
 
-        // - capability
-        String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
-        if (capability != null && !"".equals(capability))
+        if (mdElement != null)
         {
-            this.setCapability(capability);
-        }
+            // - capability
+            String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+            if (capability != null && !"".equals(capability))
+            {
+                this.setCapability(capability);
+            }
 
-        // - change
-        String change = mdElement.getAttributeValue("change", ResourceSync.NS_RS);
-        if (change != null && !"".equals(change))
-        {
-            this.setChange(change);
-        }
+            // - change
+            String change = mdElement.getAttributeValue("change", ResourceSync.NS_RS);
+            if (change != null && !"".equals(change))
+            {
+                this.setChange(change);
+            }
 
-        // - hash
-        String hashAttr = mdElement.getAttributeValue("hash", ResourceSync.NS_ATOM);
-        if (hashAttr != null && !"".equals(hashAttr))
-        {
-            this.addHashesFromAttr(hashAttr);
-        }
+            // - hash
+            String hashAttr = mdElement.getAttributeValue("hash", ResourceSync.NS_ATOM);
+            if (hashAttr != null && !"".equals(hashAttr))
+            {
+                this.addHashesFromAttr(hashAttr);
+            }
 
-        // - length
-        String length = mdElement.getAttributeValue("length", ResourceSync.NS_ATOM);
-        if (length != null && !"".equals(length))
-        {
-            long l = Long.parseLong(length);
-            this.setLength(l);
-        }
+            // - length
+            String length = mdElement.getAttributeValue("length", ResourceSync.NS_ATOM);
+            if (length != null && !"".equals(length))
+            {
+                long l = Long.parseLong(length);
+                this.setLength(l);
+            }
 
-        // - path
-        String path = mdElement.getAttributeValue("path", ResourceSync.NS_RS);
-        if (path != null && !"".equals(path))
-        {
-            this.setPath(path);
-        }
+            // - path
+            String path = mdElement.getAttributeValue("path", ResourceSync.NS_RS);
+            if (path != null && !"".equals(path))
+            {
+                this.setPath(path);
+            }
 
-        // - type
-        String type = mdElement.getAttributeValue("type", ResourceSync.NS_ATOM);
-        if (type != null && !"".equals(type))
-        {
-            this.setType(type);
+            // - type
+            String type = mdElement.getAttributeValue("type", ResourceSync.NS_ATOM);
+            if (type != null && !"".equals(type))
+            {
+                this.setType(type);
+            }
         }
 
         // all the rs:ln elements

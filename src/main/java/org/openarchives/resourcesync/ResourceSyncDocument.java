@@ -117,19 +117,22 @@ public abstract class ResourceSyncDocument
         // metadata element
         Element mdElement = element.getChild("md", ResourceSync.NS_RS);
 
-        // - capability
-        String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
-        if (!"".equals(capability))
+        if (mdElement != null)
         {
-            this.capability = capability;
-        }
+            // - capability
+            String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+            if (!"".equals(capability))
+            {
+                this.capability = capability;
+            }
 
-        // - modified
-        String modified = mdElement.getAttributeValue("modified", ResourceSync.NS_ATOM);
-        if (modified != null && !"".equals(modified))
-        {
-            Date lastMod = ResourceSync.DATE_FORMAT.parse(modified);
-            this.setLastModified(lastMod);
+            // - modified
+            String modified = mdElement.getAttributeValue("modified", ResourceSync.NS_ATOM);
+            if (modified != null && !"".equals(modified))
+            {
+                Date lastMod = ResourceSync.DATE_FORMAT.parse(modified);
+                this.setLastModified(lastMod);
+            }
         }
 
         // rs:ln elements

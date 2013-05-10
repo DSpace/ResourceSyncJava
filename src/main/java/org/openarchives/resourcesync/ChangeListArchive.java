@@ -17,7 +17,7 @@ public class ChangeListArchive extends SitemapIndex
 
     public ChangeListArchive(Date lastMod, String capabilityList)
     {
-        super(ResourceSync.CAPABILITY_CHANGELIST);
+        super(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
 
         if (lastMod != null)
         {
@@ -36,7 +36,7 @@ public class ChangeListArchive extends SitemapIndex
 
     public ChangeListArchive(InputStream in)
     {
-        super(ResourceSync.CAPABILITY_CHANGELIST, in);
+        super(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE, in);
     }
 
     public void addChangeList(Sitemap sitemap)

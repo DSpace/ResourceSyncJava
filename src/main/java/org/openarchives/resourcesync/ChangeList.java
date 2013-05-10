@@ -4,17 +4,27 @@ import java.util.Date;
 
 public class ChangeList extends UrlSet
 {
+    public ChangeList()
+    {
+        this(null, null, null);
+    }
+
     public ChangeList(Date lastMod)
     {
-        this(lastMod, null);
+        this(lastMod, null, null);
     }
 
     public ChangeList(String capabilityList)
     {
-        this(null, capabilityList);
+        this(null, capabilityList, null);
     }
 
     public ChangeList(Date lastMod, String capabilityList)
+    {
+        this(lastMod, capabilityList, null);
+    }
+
+    public ChangeList(Date lastMod, String capabilityList, String changeListArchive)
     {
         super(ResourceSync.CAPABILITY_CHANGELIST);
         this.setLastModified(lastMod);
@@ -23,6 +33,11 @@ public class ChangeList extends UrlSet
         {
             this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
         }
+    }
+
+    public void inChangeListArchive(String changeListArchive)
+    {
+        this.addLn(ResourceSync.REL_UP, changeListArchive);
     }
 
     public void addChange(URL change)

@@ -21,7 +21,7 @@ public class TestChangeListArchive
         Date now = new Date();
         ChangeListArchive cla = new ChangeListArchive();
 
-        assert cla.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST);
+        assert cla.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
         assert cla.getLastModified().getTime() >= now.getTime();
 
         List<ResourceSyncLn> lns = cla.getLns();
@@ -34,7 +34,7 @@ public class TestChangeListArchive
         Date now = new Date();
         ChangeListArchive cla = new ChangeListArchive(now, "http://capabilitylist");
 
-        assert cla.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST);
+        assert cla.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
         assert cla.getLastModified().equals(now);
 
         List<ResourceSyncLn> lns = cla.getLns();

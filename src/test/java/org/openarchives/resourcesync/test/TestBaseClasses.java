@@ -37,6 +37,7 @@ public class TestBaseClasses
         ln.setPath("/path/to/file");
         ln.setPri(45);
         ln.setType("application/pdf");
+        ln.setEncoding("ascii");
 
         assert ln.getHref().equals("http://it.is.a/url");
         assert ln.getRel().equals(ResourceSync.REL_DESCRIBES);
@@ -45,6 +46,7 @@ public class TestBaseClasses
         assert ln.getPath().equals("/path/to/file");
         assert ln.getPri() == 45;
         assert ln.getType().equals("application/pdf");
+        assert ln.getEncoding().equals("ascii");
 
         Map<String, String> hashes = ln.getHashes();
         boolean seenMd5 = false;
@@ -87,6 +89,7 @@ public class TestBaseClasses
         entry.setLength(987);
         entry.setPath("/path/to/file");
         entry.setType("application/pdf");
+        entry.setEncoding("utf-8");
 
         ResourceSyncLn ln1 = entry.addLn(ResourceSync.REL_DESCRIBES, "http://describes");
         ResourceSyncLn ln2 = entry.addLn(ResourceSync.REL_COLLECTION, "http://collection");
@@ -107,6 +110,7 @@ public class TestBaseClasses
         assert entry.getLength() == 987;
         assert entry.getPath().equals("/path/to/file");
         assert entry.getType().equals("application/pdf");
+        assert entry.getEncoding().equals("utf-8");
 
         Map<String, String> hashes = entry.getHashes();
         boolean seenMd5 = false;
@@ -184,6 +188,9 @@ public class TestBaseClasses
 
         String type = md.getAttributeValue("type", ResourceSync.NS_ATOM);
         assert type.equals("application/pdf");
+
+        String encoding = md.getAttributeValue("encoding");
+        assert encoding.equals("utf-8");
 
         String hashAttr = md.getAttributeValue("hash", ResourceSync.NS_ATOM);
         String[] hashParts = hashAttr.split(" ");

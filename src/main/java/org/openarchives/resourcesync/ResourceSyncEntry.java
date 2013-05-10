@@ -24,6 +24,7 @@ public abstract class ResourceSyncEntry
     protected long length = -1;
     protected String path = null;
     protected String type = null;
+    protected String encoding = null;
 
     protected List<ResourceSyncLn> lns = new ArrayList<ResourceSyncLn>();
 
@@ -77,6 +78,16 @@ public abstract class ResourceSyncEntry
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public String getEncoding()
+    {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding)
+    {
+        this.encoding = encoding;
     }
 
     public void addHash(String type, String hex)
@@ -225,6 +236,13 @@ public abstract class ResourceSyncEntry
             {
                 this.setType(type);
             }
+
+            // -encoding
+            String encoding = mdElement.getAttributeValue("encoding"); // FIXME: namespace?
+            if (encoding != null && !"".equals(encoding))
+            {
+                this.setEncoding(encoding);
+            }
         }
 
         // all the rs:ln elements
@@ -283,6 +301,13 @@ public abstract class ResourceSyncEntry
                 if (lnType != null && !"".equals(lnType))
                 {
                     link.setType(lnType);
+                }
+
+                // encoding
+                String lnEncoding = ln.getAttributeValue("encoding"); // FIXME: namespace?
+                if (lnEncoding != null && !"".equals(lnEncoding))
+                {
+                    link.setEncoding(lnEncoding);
                 }
             }
         }
@@ -347,6 +372,11 @@ public abstract class ResourceSyncEntry
             md.setAttribute("type", this.type, ResourceSync.NS_ATOM);
             trip = true;
         }
+        if (this.encoding != null)
+        {
+            md.setAttribute("encoding", this.encoding); // FIXME: namespace?  This comes from the HTTP spec
+            trip = true;
+        }
         if (trip)
         {
             root.addContent(md);
@@ -396,6 +426,11 @@ public abstract class ResourceSyncEntry
             if (ln.getType() != null)
             {
                 link.setAttribute("type", ln.getType(), ResourceSync.NS_ATOM);
+                trip = true;
+            }
+            if (ln.getEncoding() != null)
+            {
+                link.setAttribute("encoding", ln.getEncoding()); // FIXME: namespace?
                 trip = true;
             }
             if (trip)

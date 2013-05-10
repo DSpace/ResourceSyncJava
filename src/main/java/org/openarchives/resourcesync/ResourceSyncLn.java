@@ -15,6 +15,7 @@ public class ResourceSyncLn
     protected String rel = null;
     protected int pri = -1;
     protected String type = null;
+    protected String encoding = null;
 
     public void addHash(String type, String hex)
     {
@@ -99,5 +100,15 @@ public class ResourceSyncLn
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public String getEncoding()
+    {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding)
+    {
+        this.encoding = encoding;
     }
 }

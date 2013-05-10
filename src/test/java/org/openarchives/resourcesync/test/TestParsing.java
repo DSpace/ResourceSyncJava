@@ -75,7 +75,7 @@ public class TestParsing
         ResourceSyncDocument nd = new TestResourceSyncDocument(bais);
 
         // now check that the parsed item is the same as the original one
-        assert nd.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST);
+        assert nd.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
         assert ResourceSync.DATE_FORMAT.format(now).equals(ResourceSync.DATE_FORMAT.format(nd.getLastModified()));
 
         List<ResourceSyncLn> lns = nd.getLns();

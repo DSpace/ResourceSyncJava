@@ -19,12 +19,24 @@ public class ResourceSync
     public static String REL_DESCRIBES = "describes";
     public static String REL_COLLECTION = "collection";
     public static String REL_RESOURCESYNC = "resourcesync";
+    public static String REL_UP = "up";
+    public static String REL_ALTERNATE = "alternate";
+    public static String REL_CANONICAL = "canonical";
+    public static String REL_DUPLICATE = "duplicate";
+    public static String REL_PATCH = "http://www.openarchives.org/rs/terms/patch";
+    public static String REL_MEMENTO = "memento";
+    public static String REL_TIMEGATE = "timegate";
+    public static String REL_VIA = "via";
 
     // capabilities
     public static String CAPABILITY_RESOURCELIST = "resourcelist";
+    public static String CAPABILITY_RESOURCELIST_ARCHIVE = "resourcelist-archive";
     public static String CAPABILITY_CHANGELIST = "changelist";
+    public static String CAPABILITY_CHANGELIST_ARCHIVE = "changelist-archive";
     public static String CAPABILITY_RESOURCEDUMP = "resourcedump";
+    public static String CAPABILITY_RESOURCEDUMP_ARCHIVE = "resourcedump-archive";
     public static String CAPABILITY_CHANGEDUMP = "changedump";
+    public static String CAPABILITY_CHANGEDUMP_ARCHIVE = "changedump-archive";
     public static String CAPABILITY_RESOURCEDUMP_MANIFEST = "resourcedump-manifest";
     public static String CAPABILITY_CHANGEDUMP_MANIFEST = "changedump-manifest";
     public static String CAPABILITY_CAPABILITYLIST = "capabilitylist";

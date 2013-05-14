@@ -120,14 +120,14 @@ public abstract class ResourceSyncDocument
         if (mdElement != null)
         {
             // - capability
-            String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+            String capability = mdElement.getAttributeValue("capability");
             if (!"".equals(capability))
             {
                 this.capability = capability;
             }
 
             // - modified
-            String modified = mdElement.getAttributeValue("modified", ResourceSync.NS_ATOM);
+            String modified = mdElement.getAttributeValue("modified");
             if (modified != null && !"".equals(modified))
             {
                 Date lastMod = ResourceSync.DATE_FORMAT.parse(modified);
@@ -139,8 +139,8 @@ public abstract class ResourceSyncDocument
         List<Element> lns = element.getChildren("ln", ResourceSync.NS_RS);
         for (Element ln : lns)
         {
-            String rel = ln.getAttributeValue("rel", ResourceSync.NS_ATOM);
-            String href = ln.getAttributeValue("href", ResourceSync.NS_ATOM);
+            String rel = ln.getAttributeValue("rel");
+            String href = ln.getAttributeValue("href");
             if (rel != null && !"".equals(rel) && href != null && !"".equals(href))
             {
                 this.addLn(rel, href);
@@ -156,15 +156,14 @@ public abstract class ResourceSyncDocument
     public Element getElement()
     {
         Element root = new Element(this.root, ResourceSync.NS_SITEMAP);
-        root.addNamespaceDeclaration(ResourceSync.NS_ATOM);
         root.addNamespaceDeclaration(ResourceSync.NS_RS);
 
         // set the capability of the document in the rs:md
         Element md = new Element("md", ResourceSync.NS_RS);
-        md.setAttribute("capability", this.capability, ResourceSync.NS_RS);
+        md.setAttribute("capability", this.capability);
         if (this.lastModified != null)
         {
-            md.setAttribute("modified", ResourceSync.DATE_FORMAT.format(this.lastModified), ResourceSync.NS_ATOM);
+            md.setAttribute("modified", ResourceSync.DATE_FORMAT.format(this.lastModified));
         }
         root.addContent(md);
 
@@ -172,8 +171,8 @@ public abstract class ResourceSyncDocument
         for (ResourceSyncLn ln : this.lns)
         {
             Element lnEl = new Element("ln", ResourceSync.NS_RS);
-            lnEl.setAttribute("rel", ln.getRel(), ResourceSync.NS_ATOM);
-            lnEl.setAttribute("href", ln.getHref(), ResourceSync.NS_ATOM);
+            lnEl.setAttribute("rel", ln.getRel());
+            lnEl.setAttribute("href", ln.getHref());
             root.addContent(lnEl);
         }
 

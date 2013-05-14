@@ -195,28 +195,28 @@ public abstract class ResourceSyncEntry
         if (mdElement != null)
         {
             // - capability
-            String capability = mdElement.getAttributeValue("capability", ResourceSync.NS_RS);
+            String capability = mdElement.getAttributeValue("capability");
             if (capability != null && !"".equals(capability))
             {
                 this.setCapability(capability);
             }
 
             // - change
-            String change = mdElement.getAttributeValue("change", ResourceSync.NS_RS);
+            String change = mdElement.getAttributeValue("change");
             if (change != null && !"".equals(change))
             {
                 this.setChange(change);
             }
 
             // - hash
-            String hashAttr = mdElement.getAttributeValue("hash", ResourceSync.NS_ATOM);
+            String hashAttr = mdElement.getAttributeValue("hash");
             if (hashAttr != null && !"".equals(hashAttr))
             {
                 this.addHashesFromAttr(hashAttr);
             }
 
             // - length
-            String length = mdElement.getAttributeValue("length", ResourceSync.NS_ATOM);
+            String length = mdElement.getAttributeValue("length");
             if (length != null && !"".equals(length))
             {
                 long l = Long.parseLong(length);
@@ -224,21 +224,21 @@ public abstract class ResourceSyncEntry
             }
 
             // - path
-            String path = mdElement.getAttributeValue("path", ResourceSync.NS_RS);
+            String path = mdElement.getAttributeValue("path");
             if (path != null && !"".equals(path))
             {
                 this.setPath(path);
             }
 
             // - type
-            String type = mdElement.getAttributeValue("type", ResourceSync.NS_ATOM);
+            String type = mdElement.getAttributeValue("type");
             if (type != null && !"".equals(type))
             {
                 this.setType(type);
             }
 
             // -encoding
-            String encoding = mdElement.getAttributeValue("encoding"); // FIXME: namespace?
+            String encoding = mdElement.getAttributeValue("encoding");
             if (encoding != null && !"".equals(encoding))
             {
                 this.setEncoding(encoding);
@@ -249,14 +249,14 @@ public abstract class ResourceSyncEntry
         List<Element> lns = element.getChildren("ln", ResourceSync.NS_RS);
         for (Element ln : lns)
         {
-            String rel = ln.getAttributeValue("rel", ResourceSync.NS_ATOM);
-            String href = ln.getAttributeValue("href", ResourceSync.NS_ATOM);
+            String rel = ln.getAttributeValue("rel");
+            String href = ln.getAttributeValue("href");
             if (rel != null && !"".equals(rel) && href != null && !"".equals(href))
             {
                 ResourceSyncLn link = this.addLn(rel, href);
 
                 // hash
-                String lnHashAttr = ln.getAttributeValue("hash", ResourceSync.NS_ATOM);
+                String lnHashAttr = ln.getAttributeValue("hash");
                 if (lnHashAttr != null && !"".equals(lnHashAttr))
                 {
                     Map<String, String> hashMap = this.getHashesFromAttr(lnHashAttr);
@@ -267,7 +267,7 @@ public abstract class ResourceSyncEntry
                 }
 
                 // length
-                String lnLength = ln.getAttributeValue("length", ResourceSync.NS_ATOM);
+                String lnLength = ln.getAttributeValue("length");
                 if (lnLength != null && !"".equals(length))
                 {
                     long lnl = Long.parseLong(lnLength);
@@ -275,7 +275,7 @@ public abstract class ResourceSyncEntry
                 }
 
                 // modified
-                String modified = ln.getAttributeValue("modified", ResourceSync.NS_ATOM);
+                String modified = ln.getAttributeValue("modified");
                 if (modified != null && !"".equals(modified))
                 {
                     Date modDate = ResourceSync.DATE_FORMAT.parse(modified);
@@ -283,28 +283,28 @@ public abstract class ResourceSyncEntry
                 }
 
                 // path
-                String lnPath = ln.getAttributeValue("path", ResourceSync.NS_RS);
+                String lnPath = ln.getAttributeValue("path");
                 if (lnPath != null && !"".equals(lnPath))
                 {
                     link.setPath(lnPath);
                 }
 
                 // pri
-                String pri = ln.getAttributeValue("pri"); // FIXME: namespace?
+                String pri = ln.getAttributeValue("pri");
                 if (pri != null && !"".equals(pri))
                 {
                     link.setPri(Integer.parseInt(pri));
                 }
 
                 // type
-                String lnType = ln.getAttributeValue("type", ResourceSync.NS_ATOM);
+                String lnType = ln.getAttributeValue("type");
                 if (lnType != null && !"".equals(lnType))
                 {
                     link.setType(lnType);
                 }
 
                 // encoding
-                String lnEncoding = ln.getAttributeValue("encoding"); // FIXME: namespace?
+                String lnEncoding = ln.getAttributeValue("encoding");
                 if (lnEncoding != null && !"".equals(lnEncoding))
                 {
                     link.setEncoding(lnEncoding);
@@ -343,38 +343,38 @@ public abstract class ResourceSyncEntry
         boolean trip = false;
         if (this.capability != null)
         {
-            md.setAttribute("capability", this.capability, ResourceSync.NS_RS);
+            md.setAttribute("capability", this.capability);
             trip = true;
         }
         if (this.change != null)
         {
-            md.setAttribute("change", this.change, ResourceSync.NS_RS);
+            md.setAttribute("change", this.change);
             trip = true;
         }
         String hashAttr = this.getHashAttr(this.hashes);
         if (!"".equals(hashAttr))
         {
-            md.setAttribute("hash", hashAttr, ResourceSync.NS_ATOM);
+            md.setAttribute("hash", hashAttr);
             trip = true;
         }
         if (this.length > -1)
         {
-            md.setAttribute("length", Long.toString(this.length), ResourceSync.NS_ATOM);
+            md.setAttribute("length", Long.toString(this.length));
             trip = true;
         }
         if (this.path != null)
         {
-            md.setAttribute("path", this.path, ResourceSync.NS_RS);
+            md.setAttribute("path", this.path);
             trip = true;
         }
         if (this.type != null)
         {
-            md.setAttribute("type", this.type, ResourceSync.NS_ATOM);
+            md.setAttribute("type", this.type);
             trip = true;
         }
         if (this.encoding != null)
         {
-            md.setAttribute("encoding", this.encoding); // FIXME: namespace?  This comes from the HTTP spec
+            md.setAttribute("encoding", this.encoding);
             trip = true;
         }
         if (trip)
@@ -390,47 +390,47 @@ public abstract class ResourceSyncEntry
             String lnHash = this.getHashAttr(ln.getHashes());
             if (!"".equals(lnHash))
             {
-                link.setAttribute("hash", lnHash, ResourceSync.NS_ATOM);
+                link.setAttribute("hash", lnHash);
                 trip = true;
             }
             if (ln.getHref() != null)
             {
-                link.setAttribute("href", ln.getHref(), ResourceSync.NS_ATOM);
+                link.setAttribute("href", ln.getHref());
                 trip = true;
             }
             if (ln.getLength() > -1)
             {
-                link.setAttribute("length", Long.toString(ln.getLength()), ResourceSync.NS_ATOM);
+                link.setAttribute("length", Long.toString(ln.getLength()));
                 trip = true;
             }
             if (ln.getModified() != null)
             {
-                link.setAttribute("modified", ResourceSync.DATE_FORMAT.format(ln.getModified()), ResourceSync.NS_ATOM);
+                link.setAttribute("modified", ResourceSync.DATE_FORMAT.format(ln.getModified()));
                 trip = true;
             }
             if (ln.getPath() != null)
             {
-                link.setAttribute("path", ln.getPath(), ResourceSync.NS_RS);
+                link.setAttribute("path", ln.getPath());
                 trip = true;
             }
             if (ln.getRel() != null)
             {
-                link.setAttribute("rel", ln.getRel(), ResourceSync.NS_ATOM);
+                link.setAttribute("rel", ln.getRel());
                 trip = true;
             }
             if (ln.getPri() > 0)
             {
-                link.setAttribute("pri", Integer.toString(ln.getPri())); // FIXME: namespace?
+                link.setAttribute("pri", Integer.toString(ln.getPri()));
                 trip = true;
             }
             if (ln.getType() != null)
             {
-                link.setAttribute("type", ln.getType(), ResourceSync.NS_ATOM);
+                link.setAttribute("type", ln.getType());
                 trip = true;
             }
             if (ln.getEncoding() != null)
             {
-                link.setAttribute("encoding", ln.getEncoding()); // FIXME: namespace?
+                link.setAttribute("encoding", ln.getEncoding());
                 trip = true;
             }
             if (trip)

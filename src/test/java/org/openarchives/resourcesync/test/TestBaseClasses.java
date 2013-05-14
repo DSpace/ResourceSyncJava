@@ -174,25 +174,25 @@ public class TestBaseClasses
 
         Element md = element.getChild("md", ResourceSync.NS_RS);
 
-        String cap = md.getAttributeValue("capability", ResourceSync.NS_RS);
+        String cap = md.getAttributeValue("capability");
         assert cap.equals(ResourceSync.CAPABILITY_RESOURCELIST);
 
-        String change = md.getAttributeValue("change", ResourceSync.NS_RS);
+        String change = md.getAttributeValue("change");
         assert change.equals(ResourceSync.CHANGE_CREATED);
 
-        String length = md.getAttributeValue("length", ResourceSync.NS_ATOM);
+        String length = md.getAttributeValue("length");
         assert length.equals("987");
 
-        String path = md.getAttributeValue("path", ResourceSync.NS_RS);
+        String path = md.getAttributeValue("path");
         assert path.equals("/path/to/file");
 
-        String type = md.getAttributeValue("type", ResourceSync.NS_ATOM);
+        String type = md.getAttributeValue("type");
         assert type.equals("application/pdf");
 
         String encoding = md.getAttributeValue("encoding");
         assert encoding.equals("utf-8");
 
-        String hashAttr = md.getAttributeValue("hash", ResourceSync.NS_ATOM);
+        String hashAttr = md.getAttributeValue("hash");
         String[] hashParts = hashAttr.split(" ");
         assert hashParts.length == 2;
         seenMd5 = false;
@@ -220,19 +220,19 @@ public class TestBaseClasses
         collection = false;
         for (Element linkEl : linkEls)
         {
-            if (linkEl.getAttributeValue("href", ResourceSync.NS_ATOM).equals("http://describes"))
+            if (linkEl.getAttributeValue("href").equals("http://describes"))
             {
-                assert linkEl.getAttributeValue("rel", ResourceSync.NS_ATOM).equals(ResourceSync.REL_DESCRIBES);
-                assert linkEl.getAttributeValue("type", ResourceSync.NS_ATOM).equals("text/html");
-                assert linkEl.getAttributeValue("length", ResourceSync.NS_ATOM).equals("543");
+                assert linkEl.getAttributeValue("rel").equals(ResourceSync.REL_DESCRIBES);
+                assert linkEl.getAttributeValue("type").equals("text/html");
+                assert linkEl.getAttributeValue("length").equals("543");
                 describes = true;
             }
-            if (linkEl.getAttributeValue("href", ResourceSync.NS_ATOM).equals("http://other.collection/"))
+            if (linkEl.getAttributeValue("href").equals("http://other.collection/"))
             {
-                assert linkEl.getAttributeValue("rel", ResourceSync.NS_ATOM).equals(ResourceSync.REL_COLLECTION);
+                assert linkEl.getAttributeValue("rel").equals(ResourceSync.REL_COLLECTION);
                 other_collection = true;
             }
-            if (linkEl.getAttributeValue("href", ResourceSync.NS_ATOM).equals("http://collection"))
+            if (linkEl.getAttributeValue("href").equals("http://collection"))
             {
                 collection = true;
             }
@@ -317,10 +317,10 @@ public class TestBaseClasses
 
         Element md = element.getChild("md", ResourceSync.NS_RS);
 
-        String cap = md.getAttributeValue("capability", ResourceSync.NS_RS);
+        String cap = md.getAttributeValue("capability");
         assert cap.equals(ResourceSync.CAPABILITY_CHANGEDUMP);
 
-        String mod = md.getAttributeValue("modified", ResourceSync.NS_ATOM);
+        String mod = md.getAttributeValue("modified");
         assert mod.equals(nowStr);
 
         List<Element> linkEls = element.getChildren("ln", ResourceSync.NS_RS);
@@ -329,14 +329,14 @@ public class TestBaseClasses
         desc = false;
         for (Element link : linkEls)
         {
-            if (link.getAttributeValue("rel", ResourceSync.NS_ATOM).equals(ResourceSync.REL_DESCRIBED_BY))
+            if (link.getAttributeValue("rel").equals(ResourceSync.REL_DESCRIBED_BY))
             {
-                assert link.getAttributeValue("href", ResourceSync.NS_ATOM).equals("http://describedby");
+                assert link.getAttributeValue("href").equals("http://describedby");
                 descby = true;
             }
-            if (link.getAttributeValue("rel", ResourceSync.NS_ATOM).equals(ResourceSync.REL_DESCRIBES))
+            if (link.getAttributeValue("rel").equals(ResourceSync.REL_DESCRIBES))
             {
-                assert link.getAttributeValue("href", ResourceSync.NS_ATOM).equals("http://describes");
+                assert link.getAttributeValue("href").equals("http://describes");
                 desc = true;
             }
         }
@@ -352,13 +352,13 @@ public class TestBaseClasses
             if (entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry1"))
             {
                 Element m = entry.getChild("md", ResourceSync.NS_RS);
-                assert m.getAttributeValue("type", ResourceSync.NS_ATOM).equals("text/xml");
+                assert m.getAttributeValue("type").equals("text/xml");
                 saw1 = true;
             }
             if (entry.getChild("loc", ResourceSync.NS_SITEMAP).getText().equals("http://entry2"))
             {
                 Element m = entry.getChild("md", ResourceSync.NS_RS);
-                assert m.getAttributeValue("change", ResourceSync.NS_RS).equals(ResourceSync.CHANGE_UPDATED);
+                assert m.getAttributeValue("change").equals(ResourceSync.CHANGE_UPDATED);
                 saw2 = true;
             }
         }

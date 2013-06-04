@@ -6,17 +6,42 @@ public class ResourceList extends UrlSet
 {
     public ResourceList()
     {
-        this(null, null);
+        this(null, null, false);
     }
 
     public ResourceList(Date lastModified)
     {
-        this(lastModified, null);
+        this(lastModified, null, false);
+    }
+
+    public ResourceList(String capabilityList)
+    {
+        this(null, capabilityList, false);
     }
 
     public ResourceList(Date lastMod, String capabilityList)
     {
-        super(ResourceSync.CAPABILITY_RESOURCELIST);
+        this(lastMod, capabilityList, false);
+    }
+
+    public ResourceList(boolean dump)
+    {
+        this(null, null, dump);
+    }
+
+    public ResourceList(Date lastModified, boolean dump)
+    {
+        this(lastModified, null, dump);
+    }
+
+    public ResourceList(String capabilityList, boolean dump)
+    {
+        this(null, capabilityList, dump);
+    }
+
+    public ResourceList(Date lastMod, String capabilityList, boolean dump)
+    {
+        super(dump ? ResourceSync.CAPABILITY_RESOURCEDUMP_MANIFEST : ResourceSync.CAPABILITY_RESOURCELIST);
 
         if (lastMod == null)
         {
@@ -31,11 +56,6 @@ public class ResourceList extends UrlSet
         {
             this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
         }
-    }
-
-    public ResourceList(String capabilityList)
-    {
-        this(null, capabilityList);
     }
 
     public void addResource(URL resource)

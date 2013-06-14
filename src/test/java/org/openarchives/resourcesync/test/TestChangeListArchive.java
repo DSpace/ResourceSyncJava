@@ -32,7 +32,7 @@ public class TestChangeListArchive
     public void construction()
     {
         Date now = new Date();
-        ChangeListArchive cla = new ChangeListArchive(now, "http://capabilitylist");
+        ChangeListArchive cla = new ChangeListArchive(now, now, "http://capabilitylist");
 
         assert cla.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
         assert cla.getLastModified().equals(now);
@@ -74,11 +74,28 @@ public class TestChangeListArchive
         assert change1;
         assert change2;
     }
+
+    @Test
+    public void checkFromUntil()
+    {
+        ChangeListArchive cla = new ChangeListArchive("http://capabilitylist");
+
+        cla.addChangeList("http://changelist1", new Date(10000));
+        cla.addChangeList("http://changelist2", new Date(1000));
+        cla.addChangeList("http://changelist3", new Date(50000));
+        cla.addChangeList("http://changelist4", new Date(5000));
+
+        assert cla.getFrom().equals(new Date(1000));
+        assert cla.getUntil().equals(new Date(50000));
+
+        System.out.println(cla.serialise());
+    }
+
     @Test
     public void manualCheck()
     {
         Date now = new Date();
-        ChangeListArchive cla = new ChangeListArchive(now, "http://capabilitylist");
+        ChangeListArchive cla = new ChangeListArchive(now, now, "http://capabilitylist");
 
         cla.addChangeList("http://changelist1", new Date(10000));
         cla.addChangeList("http://changelist2", new Date(1000));

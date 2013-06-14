@@ -10,22 +10,36 @@ public class ChangeListArchive extends SitemapIndex
         this(null, null);
     }
 
-    public ChangeListArchive(Date lastMod)
+    public ChangeListArchive(Date from, Date until)
     {
-        this(lastMod, null);
+        this(from, until, null);
     }
 
-    public ChangeListArchive(Date lastMod, String capabilityList)
+    public ChangeListArchive(String capabilityList)
+    {
+        this(null, null, capabilityList);
+    }
+
+    public ChangeListArchive(Date from, Date until, String capabilityList)
     {
         super(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
 
-        if (lastMod != null)
+        if (from != null)
         {
-            this.setLastModified(lastMod);
+            this.setFrom(from);
         }
         else
         {
-            this.setLastModified(new Date());
+            this.setFrom(new Date());
+        }
+
+        if (until != null)
+        {
+            this.setUntil(until);
+        }
+        else
+        {
+            this.setFrom(new Date());
         }
 
         if (capabilityList != null)
@@ -41,6 +55,24 @@ public class ChangeListArchive extends SitemapIndex
 
     public void addChangeList(Sitemap sitemap)
     {
+        if (this.getFrom() == null)
+        {
+            this.setFrom(sitemap.getLastModified());
+        }
+        else if (sitemap.getLastModified().getTime() < this.getFrom().getTime())
+        {
+            this.setFrom(sitemap.getLastModified());
+        }
+
+        if (this.getUntil() == null)
+        {
+            this.setUntil(sitemap.getLastModified());
+        }
+        else if (sitemap.getLastModified().getTime() > this.getUntil().getTime())
+        {
+            this.setUntil(sitemap.getLastModified());
+        }
+
         this.addSitemap(sitemap);
     }
 

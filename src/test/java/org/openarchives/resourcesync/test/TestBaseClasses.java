@@ -250,6 +250,7 @@ public class TestBaseClasses
 
         ResourceSyncDocument doc = new TestResourceSyncDocument();
         doc.setLastModified(now);
+        doc.setUntil(now);
 
         ResourceSyncEntry entry1 = new TestResourceSyncEntry();
         entry1.setLoc("http://entry1");
@@ -271,6 +272,8 @@ public class TestBaseClasses
 
         assert doc.getCapability().equals(ResourceSync.CAPABILITY_CHANGEDUMP);
         assert doc.getLastModified().equals(now);
+        assert doc.getFrom().equals(now);
+        assert doc.getUntil().equals(now);
 
         List<ResourceSyncEntry> entries = doc.getEntries();
         assert entries.size() == 2;
@@ -320,8 +323,11 @@ public class TestBaseClasses
         String cap = md.getAttributeValue("capability");
         assert cap.equals(ResourceSync.CAPABILITY_CHANGEDUMP);
 
-        String mod = md.getAttributeValue("modified");
+        String mod = md.getAttributeValue("from");
         assert mod.equals(nowStr);
+
+        String until = md.getAttributeValue("until");
+        assert until.equals(nowStr);
 
         List<Element> linkEls = element.getChildren("ln", ResourceSync.NS_RS);
         assert linkEls.size() == 2;

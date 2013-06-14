@@ -6,28 +6,28 @@ public class ChangeList extends UrlSet
 {
     public ChangeList()
     {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
-    public ChangeList(Date lastMod)
+    public ChangeList(Date from, Date until)
     {
-        this(lastMod, null, null);
+        this(from, until, null, null);
     }
 
     public ChangeList(String capabilityList)
     {
-        this(null, capabilityList, null);
+        this(null, null, capabilityList, null);
     }
 
-    public ChangeList(Date lastMod, String capabilityList)
+    public ChangeList(Date from, Date until, String capabilityList)
     {
-        this(lastMod, capabilityList, null);
+        this(from, until, capabilityList, null);
     }
 
-    public ChangeList(Date lastMod, String capabilityList, String changeListArchive)
+    public ChangeList(Date from, Date until, String capabilityList, String changeListArchive)
     {
         super(ResourceSync.CAPABILITY_CHANGELIST);
-        this.setLastModified(lastMod);
+        this.setFromUntil(from, until);
 
         if (capabilityList != null)
         {
@@ -42,6 +42,23 @@ public class ChangeList extends UrlSet
 
     public void addChange(URL change)
     {
+        if (this.getFrom() == null)
+        {
+            this.setFrom(change.getLastModified());
+        }
+        else if (change.getLastModified().getTime() < this.getFrom().getTime())
+        {
+            this.setFrom(change.getLastModified());
+        }
+
+        if (this.getUntil() == null)
+        {
+            this.setUntil(change.getLastModified());
+        }
+        else if (change.getLastModified().getTime() > this.getUntil().getTime())
+        {
+            this.setUntil(change.getLastModified());
+        }
         this.addUrl(change);
     }
 

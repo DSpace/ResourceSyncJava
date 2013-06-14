@@ -23,7 +23,7 @@ public class TestCapabilityList
         CapabilityList cl = new CapabilityList();
 
         assert cl.getCapability().equals(ResourceSync.CAPABILITY_CAPABILITYLIST);
-        assert cl.getLastModified().getTime() >= now.getTime();
+        assert cl.getLastModified() == null;
 
         List<ResourceSyncLn> lns = cl.getLns();
         assert lns.size() == 0;

@@ -13,6 +13,11 @@ public class CapabilityList extends UrlSet
         this(null, null);
     }
 
+    public CapabilityList(String describedBy)
+    {
+        this(describedBy, null);
+    }
+
     public CapabilityList(String describedBy, Date lastModified)
     {
         super(ResourceSync.CAPABILITY_CAPABILITYLIST);
@@ -22,13 +27,9 @@ public class CapabilityList extends UrlSet
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGELIST);
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGEDUMP);
 
-        if (lastModified == null)
+        if (lastModified != null)
         {
-            this.lastModified = new Date();
-        }
-        else
-        {
-            this.lastModified = lastModified;
+            this.setLastModified(lastModified);
         }
 
         if (describedBy != null)

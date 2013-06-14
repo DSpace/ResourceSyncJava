@@ -19,7 +19,7 @@ public class TestChangeList
     public void simpleConstructor()
     {
         Date now = new Date();
-        ChangeList cl = new ChangeList(now);
+        ChangeList cl = new ChangeList(now, now);
 
         assert cl.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST);
         assert cl.getLastModified().getTime() >= now.getTime();
@@ -32,7 +32,7 @@ public class TestChangeList
     public void construction()
     {
         Date now = new Date();
-        ChangeList cl = new ChangeList(now, "http://capabilitylist");
+        ChangeList cl = new ChangeList(now, now, "http://capabilitylist");
 
         assert cl.getCapability().equals(ResourceSync.CAPABILITY_CHANGELIST);
         assert cl.getLastModified().equals(now);
@@ -45,7 +45,7 @@ public class TestChangeList
     public void methods()
     {
         Date now = new Date();
-        ChangeList cl = new ChangeList(now);
+        ChangeList cl = new ChangeList(now, now);
 
         URL change = new URL();
         change.setLoc("http://change1");
@@ -80,9 +80,22 @@ public class TestChangeList
     }
 
     @Test
+    public void checkFromUntil()
+    {
+        ChangeList cl = new ChangeList();
+        cl.addChange("http://change1", new Date(1000), ResourceSync.CHANGE_CREATED);
+        cl.addChange("http://change2", new Date(500), ResourceSync.CHANGE_UPDATED);
+        cl.addChange("http://change3", new Date(50000), ResourceSync.CHANGE_CREATED);
+        cl.addChange("http://change1", new Date(5000), ResourceSync.CHANGE_UPDATED);
+
+        assert cl.getFrom().equals(new Date(500));
+        assert cl.getUntil().equals(new Date(50000));
+    }
+
+    @Test
     public void manualCheck()
     {
-        ChangeList cl = new ChangeList(new Date());
+        ChangeList cl = new ChangeList(new Date(), new Date());
         cl.addChange("http://change1", new Date(), ResourceSync.CHANGE_CREATED);
         cl.addChange("http://change2", new Date(), ResourceSync.CHANGE_UPDATED);
         cl.addChange("http://change3", new Date(), ResourceSync.CHANGE_CREATED);

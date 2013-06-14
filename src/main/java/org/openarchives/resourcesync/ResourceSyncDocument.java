@@ -25,7 +25,8 @@ public abstract class ResourceSyncDocument
     protected String root;
 
     // these options can be accessed using getters and setters
-    protected Date lastModified;
+    protected Date from;
+    protected Date until;
     protected List<ResourceSyncEntry> unorderedEntries = new ArrayList<ResourceSyncEntry>();
     protected TreeMap<Date, List<ResourceSyncEntry>> orderedEntries = new TreeMap<Date, List<ResourceSyncEntry>>();
     protected List<ResourceSyncLn> lns = new ArrayList<ResourceSyncLn>();
@@ -98,12 +99,38 @@ public abstract class ResourceSyncDocument
 
     public Date getLastModified()
     {
-        return lastModified;
+        return this.getFrom();
     }
 
     public void setLastModified(Date lastModified)
     {
-        this.lastModified = lastModified;
+        this.setFrom(lastModified);
+    }
+
+    public void setFrom(Date from)
+    {
+        this.from = from;
+    }
+
+    public Date getFrom()
+    {
+        return this.from;
+    }
+
+    public void setUntil(Date until)
+    {
+        this.until = until;
+    }
+
+    public Date getUntil()
+    {
+        return this.until;
+    }
+
+    public void setFromUntil(Date from, Date until)
+    {
+        this.setFrom(from);
+        this.setUntil(until);
     }
 
     public String getCapability()
@@ -126,12 +153,20 @@ public abstract class ResourceSyncDocument
                 this.capability = capability;
             }
 
-            // - modified
-            String modified = mdElement.getAttributeValue("modified");
+            // - from
+            String modified = mdElement.getAttributeValue("from");
             if (modified != null && !"".equals(modified))
             {
                 Date lastMod = ResourceSync.DATE_FORMAT.parse(modified);
-                this.setLastModified(lastMod);
+                this.setFrom(lastMod);
+            }
+
+            // - until
+            String until = mdElement.getAttributeValue("until");
+            if (until != null && !"".equals(until))
+            {
+                Date ud = ResourceSync.DATE_FORMAT.parse(until);
+                this.setUntil(ud);
             }
         }
 
@@ -161,9 +196,13 @@ public abstract class ResourceSyncDocument
         // set the capability of the document in the rs:md
         Element md = new Element("md", ResourceSync.NS_RS);
         md.setAttribute("capability", this.capability);
-        if (this.lastModified != null)
+        if (this.from != null)
         {
-            md.setAttribute("modified", ResourceSync.DATE_FORMAT.format(this.lastModified));
+            md.setAttribute("from", ResourceSync.DATE_FORMAT.format(this.from));
+        }
+        if (this.until != null)
+        {
+            md.setAttribute("until", ResourceSync.DATE_FORMAT.format(this.until));
         }
         root.addContent(md);
 

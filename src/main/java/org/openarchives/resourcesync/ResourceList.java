@@ -45,11 +45,11 @@ public class ResourceList extends UrlSet
 
         if (lastMod == null)
         {
-            this.lastModified = new Date();
+            this.setFrom(new Date());
         }
         else
         {
-            this.lastModified = lastMod;
+            this.setFrom(lastMod);
         }
 
         if (capabilityList != null)

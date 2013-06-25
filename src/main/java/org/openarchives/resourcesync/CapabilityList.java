@@ -26,6 +26,10 @@ public class CapabilityList extends UrlSet
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_RESOURCEDUMP);
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGELIST);
         this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGEDUMP);
+        this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
+        this.allowedCapabilities.add(ResourceSync.CAPABILITY_CHANGEDUMP_ARCHIVE);
+        this.allowedCapabilities.add(ResourceSync.CAPABILITY_RESOURCEDUMP_ARCHIVE);
+        this.allowedCapabilities.add(ResourceSync.CAPABILITY_RESOURCELIST_ARCHIVE);
 
         if (lastModified != null)
         {
@@ -124,6 +128,18 @@ public class CapabilityList extends UrlSet
         try
         {
             return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGEDUMP);
+        }
+        catch (SpecComplianceException e)
+        {
+            return null;
+        }
+    }
+
+    public URL setChangeListArchive(String loc)
+    {
+        try
+        {
+            return this.addCapableUrl(loc, ResourceSync.CAPABILITY_CHANGELIST_ARCHIVE);
         }
         catch (SpecComplianceException e)
         {

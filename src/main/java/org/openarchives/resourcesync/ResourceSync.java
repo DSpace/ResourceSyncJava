@@ -29,6 +29,7 @@ public class ResourceSync
     public static String REL_VIA = "via";
 
     // capabilities
+    public static String CAPABILITY_RESOURCESYNC = "resourcesync";
     public static String CAPABILITY_RESOURCELIST = "resourcelist";
     public static String CAPABILITY_RESOURCELIST_ARCHIVE = "resourcelist-archive";
     public static String CAPABILITY_CHANGELIST = "changelist";

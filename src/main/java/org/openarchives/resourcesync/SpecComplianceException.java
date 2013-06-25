@@ -1,6 +1,6 @@
 package org.openarchives.resourcesync;
 
-public class SpecComplianceException extends Exception
+public class SpecComplianceException extends RuntimeException
 {
     public SpecComplianceException()
     {

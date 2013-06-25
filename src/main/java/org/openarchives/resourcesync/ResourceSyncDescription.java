@@ -34,7 +34,10 @@ public class ResourceSyncDescription extends UrlSet
     {
         URL caplist = new URL();
         caplist.setLoc(loc);
-        caplist.addLn(ResourceSync.REL_DESCRIBED_BY, describedby);
+        if (describedby != null)
+        {
+            caplist.addLn(ResourceSync.REL_DESCRIBED_BY, describedby);
+        }
         caplist.setCapability(ResourceSync.CAPABILITY_CAPABILITYLIST);
         this.addCapabilityList(caplist);
         return caplist;

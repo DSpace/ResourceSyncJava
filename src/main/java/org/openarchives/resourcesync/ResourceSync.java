@@ -27,6 +27,7 @@ public class ResourceSync
     public static String REL_MEMENTO = "memento";
     public static String REL_TIMEGATE = "timegate";
     public static String REL_VIA = "via";
+    public static String REL_PROFILE = "profile";
 
     // capabilities
     public static String CAPABILITY_RESOURCESYNC = "resourcesync";

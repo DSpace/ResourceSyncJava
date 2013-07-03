@@ -37,7 +37,13 @@ public class ChangeList extends UrlSet
 
     public void inChangeListArchive(String changeListArchive)
     {
-        this.addLn(ResourceSync.REL_UP, changeListArchive);
+        // FIXME: this currently doesn't do anything .. we need to resolve
+        // how to link from a change list to a changelist archive
+        //
+        // this code would link from a changelist to a changelistindex, which is
+        // different ...
+        //
+        // this.addLn(ResourceSync.REL_UP, changeListArchive);
     }
 
     public void addChange(URL change)

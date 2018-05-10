@@ -1,3 +1,8 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import org.jdom2.Document;
@@ -13,11 +18,11 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
-
+/**
+ * @author Richard Jones
+ */
 public abstract class ResourceSyncDocument
 {
     // these options should be provided by the extending class through the constructor overrides

@@ -21,7 +21,11 @@ public class UrlSet extends ResourceSyncDocument
     {
         this.addEntry(url);
     }
-
+    public void addSitemap(Sitemap sitemap )
+    {
+        this.addEntry(sitemap);
+    }
+    
     public List<ResourceSyncEntry> getUrls()
     {
         return this.getEntries();

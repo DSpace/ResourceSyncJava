@@ -12,6 +12,7 @@ import java.util.Map;
 
 public abstract class ResourceSyncEntry
 {
+	
     protected String root;
 
     protected String loc = null;

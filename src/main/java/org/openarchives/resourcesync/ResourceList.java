@@ -54,10 +54,27 @@ public class ResourceList extends UrlSet
 
         if (capabilityList != null)
         {
-            this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
+            this.addLn(ResourceSync.REL_UP, capabilityList);
         }
     }
+    public ResourceList(Date lastMod, String capabilityList, boolean dump,boolean changeDump)
+    {
+        super(changeDump ? ResourceSync.CAPABILITY_CHANGEDUMP_MANIFEST : ResourceSync.CAPABILITY_RESOURCELIST);
 
+        if (lastMod == null)
+        {
+            this.setFrom(new Date());
+        }
+        else
+        {
+            this.setFrom(lastMod);
+        }
+
+        if (capabilityList != null)
+        {
+            this.addLn(ResourceSync.REL_UP, capabilityList);
+        }
+    }
     public void addResource(URL resource)
     {
         this.addEntry(resource);

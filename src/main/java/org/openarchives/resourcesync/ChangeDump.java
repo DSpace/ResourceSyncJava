@@ -1,23 +1,21 @@
 package org.openarchives.resourcesync;
 
-import com.sun.org.apache.xpath.internal.functions.FuncStringLength;
-
 import java.util.Date;
 
-public class ResourceDump extends UrlSet
+public class ChangeDump extends UrlSet
 {
 
-    public ResourceDump(Date from, String resourceSync)
+    public ChangeDump(Date from, String resourceSync)
     {
-        super(ResourceSync.CAPABILITY_RESOURCEDUMP);
+        super(ResourceSync.CAPABILITY_CHANGEDUMP);
         this.setFrom(from);
         if (resourceSync != null)
         {
-            this.addLn(ResourceSync.REL_UP, resourceSync);
+            this.addLn(ResourceSync.CAPABILITY_RESOURCESYNC, resourceSync);
         }
     }
 
-    public ResourceDump()
+    public ChangeDump()
     {
         this(new Date(), null);
     }
@@ -34,15 +32,6 @@ public class ResourceDump extends UrlSet
         url.setLastModified(lastMod);
         url.setType(type);
         url.setLength(length);
-        this.addResourceZip(url);
-        return url;
-    }
-    public URL addResourceZip(String zipUrl, Date lastMod, String type)
-    {
-        URL url = new URL();
-        url.setLoc(zipUrl);
-        url.setLastModified(lastMod);
-        url.setType(type);
         this.addResourceZip(url);
         return url;
     }

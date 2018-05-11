@@ -44,7 +44,7 @@ public class ChangeListArchive extends SitemapIndex
 
         if (capabilityList != null)
         {
-            this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
+            this.addLn(ResourceSync.REL_UP, capabilityList);
         }
     }
 

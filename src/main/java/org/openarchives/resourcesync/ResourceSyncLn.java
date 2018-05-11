@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class ResourceSyncLn
 {
+	
+	
     protected Map<String, String> hashes = new HashMap<String, String>();
     protected String href = null;
     protected long length = -1;

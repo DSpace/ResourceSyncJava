@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class ChangeList extends UrlSet
 {
+	
+
     public ChangeList()
     {
         this(null, null, null, null);
@@ -31,7 +33,7 @@ public class ChangeList extends UrlSet
 
         if (capabilityList != null)
         {
-            this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
+            this.addLn(ResourceSync.REL_UP, capabilityList);
         }
     }
 

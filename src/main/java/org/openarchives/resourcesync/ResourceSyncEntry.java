@@ -1,3 +1,8 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import org.jdom2.Element;
@@ -9,9 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * @author Richard Jones
+ */
 public abstract class ResourceSyncEntry
 {
+	
     protected String root;
 
     protected String loc = null;

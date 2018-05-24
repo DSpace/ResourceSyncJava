@@ -1,9 +1,16 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import org.jdom2.Namespace;
 
 import java.text.SimpleDateFormat;
-
+/**
+ * @author Richard Jones
+ */
 public class ResourceSync
 {
     // namespaces
@@ -30,11 +37,11 @@ public class ResourceSync
     public static String REL_PROFILE = "profile";
 
     // capabilities
-    public static String CAPABILITY_RESOURCESYNC = "resourcesync";
+    public static String CAPABILITY_RESOURCESYNC = "description";
     public static String CAPABILITY_RESOURCELIST = "resourcelist";
     public static String CAPABILITY_RESOURCELIST_ARCHIVE = "resourcelist-archive";
     public static String CAPABILITY_CHANGELIST = "changelist";
-    public static String CAPABILITY_CHANGELIST_ARCHIVE = "changelist-archive";
+    public static String CAPABILITY_CHANGELIST_ARCHIVE = "changelistindex";
     public static String CAPABILITY_RESOURCEDUMP = "resourcedump";
     public static String CAPABILITY_RESOURCEDUMP_ARCHIVE = "resourcedump-archive";
     public static String CAPABILITY_CHANGEDUMP = "changedump";

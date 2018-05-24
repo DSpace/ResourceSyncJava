@@ -1,9 +1,17 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Richard Jones
+ */
 public class CapabilityList extends UrlSet
 {
     private List<String> allowedCapabilities = new ArrayList<String>();

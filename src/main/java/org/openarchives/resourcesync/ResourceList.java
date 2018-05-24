@@ -1,7 +1,14 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import java.util.Date;
-
+/**
+ * @author Richard Jones
+ */
 public class ResourceList extends UrlSet
 {
     public ResourceList()
@@ -54,10 +61,27 @@ public class ResourceList extends UrlSet
 
         if (capabilityList != null)
         {
-            this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
+            this.addLn(ResourceSync.REL_UP, capabilityList);
         }
     }
+    public ResourceList(Date lastMod, String capabilityList, boolean dump,boolean changeDump)
+    {
+        super(changeDump ? ResourceSync.CAPABILITY_CHANGEDUMP_MANIFEST : ResourceSync.CAPABILITY_RESOURCELIST);
 
+        if (lastMod == null)
+        {
+            this.setFrom(new Date());
+        }
+        else
+        {
+            this.setFrom(lastMod);
+        }
+
+        if (capabilityList != null)
+        {
+            this.addLn(ResourceSync.REL_UP, capabilityList);
+        }
+    }
     public void addResource(URL resource)
     {
         this.addEntry(resource);

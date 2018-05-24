@@ -1,3 +1,8 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import org.jdom2.Document;
@@ -13,24 +18,43 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
-
+/**
+ * @author Richard Jones
+ */
 public abstract class ResourceSyncDocument
 {
     // these options should be provided by the extending class through the constructor overrides
     protected String capability;
     protected String root;
-
+    //ADD at and completed
+    protected Date at;
+    protected Date completed;
     // these options can be accessed using getters and setters
     protected Date from;
     protected Date until;
     protected List<ResourceSyncEntry> unorderedEntries = new ArrayList<ResourceSyncEntry>();
     protected TreeMap<Date, List<ResourceSyncEntry>> orderedEntries = new TreeMap<Date, List<ResourceSyncEntry>>();
     protected List<ResourceSyncLn> lns = new ArrayList<ResourceSyncLn>();
+    
+    private String changeType = null;
 
+    public String getChangeType() {
+		return changeType;
+	}
+
+	public void setChangeType(String changeType) {
+		if (changeType.toLowerCase().equals("create")) {
+			this.changeType = ResourceSync.CHANGE_CREATED;
+		}else if (changeType.toLowerCase().equals("update")) {
+			this.changeType = ResourceSync.CHANGE_UPDATED;
+		}else if (changeType.toLowerCase().equals("delete")) {
+			this.changeType = ResourceSync.CHANGE_DELETED;
+		}
+	}
+    
+    
     public ResourceSyncDocument(String root, String capability, InputStream in)
     {
         this.root = root;
@@ -133,7 +157,23 @@ public abstract class ResourceSyncDocument
         this.setUntil(until);
     }
 
-    public String getCapability()
+    public Date getAt() {
+		return this.at;
+	}
+
+	public void setAt(Date at) {
+		this.at = at;
+	}
+
+	public Date getCompleted() {
+		return this.completed;
+	}
+
+	public void setCompleted(Date completed) {
+		this.completed = completed;
+	}
+
+	public String getCapability()
     {
         return capability;
     }
@@ -163,6 +203,8 @@ public abstract class ResourceSyncDocument
 
             // - until
             String until = mdElement.getAttributeValue("until");
+            
+            
             if (until != null && !"".equals(until))
             {
                 Date ud = ResourceSync.DATE_FORMAT.parse(until);
@@ -179,6 +221,7 @@ public abstract class ResourceSyncDocument
             if (rel != null && !"".equals(rel) && href != null && !"".equals(href))
             {
                 this.addLn(rel, href);
+                
             }
         }
 
@@ -240,6 +283,7 @@ public abstract class ResourceSyncDocument
             throws IOException
     {
         Element element = this.getElement();
+        
         Document doc = new Document(element);
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         xmlOutputter.output(doc, out);

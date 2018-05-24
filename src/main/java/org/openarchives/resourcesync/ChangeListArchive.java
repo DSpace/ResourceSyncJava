@@ -1,8 +1,15 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree
+ */
 package org.openarchives.resourcesync;
 
 import java.io.InputStream;
 import java.util.Date;
-
+/**
+ * @author Richard Jones
+ */
 public class ChangeListArchive extends SitemapIndex
 {
     public ChangeListArchive()
@@ -44,7 +51,7 @@ public class ChangeListArchive extends SitemapIndex
 
         if (capabilityList != null)
         {
-            this.addLn(ResourceSync.REL_RESOURCESYNC, capabilityList);
+            this.addLn(ResourceSync.REL_UP, capabilityList);
         }
     }
 
